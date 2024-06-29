@@ -1,5 +1,6 @@
 import { ipcAsync, sendIPCEvent } from '@getflywheel/local/renderer';
 import { ipcRenderer } from 'electron';
+import openButton from './components/OpenButton';
 
 import type { AddonRendererContext } from '@getflywheel/local/renderer';
 
@@ -13,4 +14,6 @@ export default function (context: AddonRendererContext) {
 		});
 		sendIPCEvent('ping', { data: Date.now() });
 	});
+
+	hooks.addContent('SiteInfo_Top_TopRight', openButton);
 }
