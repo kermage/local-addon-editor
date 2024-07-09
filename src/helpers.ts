@@ -10,6 +10,10 @@ export interface CustomSite extends Site {
 	asLaravel?: boolean;
 }
 
+export function getCommand(site: CustomSite) {
+	return site.editorCommand || 'code';
+}
+
 function getRootPath(site: CustomSite) {
 	const parts = [site.path, 'app'];
 
@@ -24,7 +28,7 @@ export async function openInEditor(site: Site) {
 	const asyncExecFile = promisify(execFile);
 	const { stderr } = await asyncExecFile(
 		process.env.SHELL!,
-		['-lc', `code ${getRootPath(site)}`],
+		['-lc', `${getCommand(site)} ${getRootPath(site)}`],
 		{
 			shell: false,
 		},

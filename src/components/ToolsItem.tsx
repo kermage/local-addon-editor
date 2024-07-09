@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron';
 import React, { createRef } from 'react';
 
 import {
@@ -6,6 +7,7 @@ import {
 	TableListRow,
 	TextButton,
 } from '@getflywheel/local-components';
+import { getCommand } from '../helpers';
 
 import type { CustomSite } from '../helpers';
 
@@ -19,7 +21,7 @@ export default function ({ site }: Props) {
 	async function handleClick() {
 		const command = inputRef.current?.value;
 
-		console.log('save-editor', site, command);
+		ipcRenderer.send('save-editor', site, command);
 	}
 
 	return (
@@ -30,7 +32,7 @@ export default function ({ site }: Props) {
 						style={{ marginBottom: 0 }}
 						ref={inputRef}
 						// @ts-ignore
-						defaultValue={site.editorCommand || 'code'}
+						defaultValue={getCommand(site)}
 					/>
 
 					<TextButton onClick={handleClick} style={{ padding: 0 }}>
