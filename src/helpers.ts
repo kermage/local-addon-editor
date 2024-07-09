@@ -1,10 +1,12 @@
 import { execFile } from 'child_process';
+import { readJSONSync } from 'fs-extra';
 import { join } from 'path';
 import { promisify } from 'util';
 
 import type { Site } from '@getflywheel/local';
 
-interface CustomSite extends Site {
+export interface CustomSite extends Site {
+	editorCommand?: string;
 	asLaravel?: boolean;
 }
 
@@ -32,3 +34,13 @@ export async function openInEditor(site: Site) {
 		throw new Error(stderr);
 	}
 }
+
+interface Package {
+	name: string;
+	version: string;
+	productName: string;
+}
+
+export const packageJSON: Package = readJSONSync(
+	join(__dirname, '..', 'package.json'),
+);
